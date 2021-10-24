@@ -25,6 +25,20 @@
               </div>
             </div>
             <div class="card-body">
+              {% if messages %}
+                  {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                      <div class="alert alert-danger">
+                        {{message}}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-info">
+                        {{message}}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+              {% endif %}
+
               <table class="table table-hover">
                 <thead>
                   <tr>
@@ -56,6 +70,25 @@
                 </tbody>
               </table>
             </div>
+            <div class="card-footer">
+              <div class="pagination">
+                  <span class="step-links">
+                      {% if tasks.has_previous %}
+                          <a href="?page=1">&laquo; first</a>
+                          <a href="?page={{ tasks.previous_page_number }}">previous</a>
+                      {% endif %}
+
+                      <span class="current">
+                          Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
+                      </span>
+
+                      {% if tasks.has_next %}
+                          <a href="?page={{ tasks.next_page_number }}">next</a>
+                          <a href="?page={{ tasks.paginator.num_pages }}">last &raquo;</a>
+                      {% endif %}
+                  </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,7 +105,7 @@
             <div class="modal-body">
               <div class="form-group">
                 <label class="form-label">Task name</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="name" class="form-control">
                 <input type="hidden" name="next" value="{{request.path}}" class="form-control" required>
               </div>
             </div>

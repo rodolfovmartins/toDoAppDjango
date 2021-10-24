@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.forms import ModelForm
 # Create your models here.
 class Task(models.Model):
     name = models.CharField(max_length=255)
@@ -9,3 +9,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+class TaskForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = [
+            'name',
+            'done'
+        ]
