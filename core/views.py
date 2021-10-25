@@ -18,7 +18,6 @@ def index(request):
     return render(request, 'index.html', context)
 
 def newTask(request):
-    next = request.POST.get('next', '/')
     try:
         if request.POST:
             taskModelForm = TaskForm(request.POST)
@@ -28,30 +27,43 @@ def newTask(request):
             else:
                 messages.error(request, taskModelForm.errors)
 
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
     except Exception as e:
         messages.error(request, e)
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
 
-def checkTaks(request, id):
-    next = request.POST.get('next', '/')
+def checkTask(request, id):
     try:
         task = Task.objects.filter(id=id)
         print(task)
         task.update(done=True)
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
     except Exception as e:
         messages.error(request, e)
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
 
-def uncheckTaks(request, id):
-    next = request.POST.get('next', '/')
+def uncheckTask(request, id):
     try:
         task = Task.objects.filter(id=id)
-        print(task)
         task.update(done=False)
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
     except Exception as e:
         messages.error(request, e)
-        return HttpResponseRedirect(next)
+        return HttpResponseRedirect('/')
 
+def updateTask(request):
+    try:
+        if request.POST:
+            task = Task.objects.get(id=request.POST.get('id'))
+            taskModelForm = TaskForm(request.POST, instance=task)
+
+            if taskModelForm.is_valid():
+                taskModelForm.save()
+                messages.success(request, 'Task updated')
+            else:
+                messages.error(request, taskModelForm.errors)
+
+        return HttpResponseRedirect('/')
+    except Exception as e:
+        messages.error(request, e)
+        return HttpResponseRedirect('/')
