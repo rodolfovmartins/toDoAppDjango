@@ -23,7 +23,7 @@ def newTask(request):
         if request.POST:
             taskModelForm = TaskForm(request.POST)
             if taskModelForm.is_valid():
-                task = taskModelForm.save()
+                taskModelForm.save()
                 messages.success(request, 'New task registered')
             else:
                 messages.error(request, taskModelForm.errors)
@@ -33,4 +33,25 @@ def newTask(request):
         messages.error(request, e)
         return HttpResponseRedirect(next)
 
+def checkTaks(request, id):
+    next = request.POST.get('next', '/')
+    try:
+        task = Task.objects.filter(id=id)
+        print(task)
+        task.update(done=True)
+        return HttpResponseRedirect(next)
+    except Exception as e:
+        messages.error(request, e)
+        return HttpResponseRedirect(next)
+
+def uncheckTaks(request, id):
+    next = request.POST.get('next', '/')
+    try:
+        task = Task.objects.filter(id=id)
+        print(task)
+        task.update(done=False)
+        return HttpResponseRedirect(next)
+    except Exception as e:
+        messages.error(request, e)
+        return HttpResponseRedirect(next)
 
