@@ -193,7 +193,7 @@
                           <a class="btn btn-sm btn-info btn-loading mx-1" href="{% url 'task.check' id=task.id %}"><i class="fas fa-check-circle"></i></a>
                         {% endif %}
                           <a class="btn btn-sm btn-primary mx-1 btn-edit" data-row="{{task}}" data-id="{{task.id}}">Edit</a>
-                          <a class="btn btn-sm btn-primary mx-1" >Remove</a>
+                          <a class="btn btn-sm btn-primary mx-1  btn-loading" href="{% url 'task.delete' id=task.id %}">Remove</a>
                       </td>
                     </tr>
                   {% endfor %}

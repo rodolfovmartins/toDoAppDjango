@@ -67,3 +67,15 @@ def updateTask(request):
     except Exception as e:
         messages.error(request, e)
         return HttpResponseRedirect('/')
+
+
+def deleteTask(request, id):
+    try:
+        task = Task.objects.get(id=id)
+        task.delete()
+        messages.success(request, 'Task deleted')
+
+        return HttpResponseRedirect('/')
+    except Exception as e:
+        messages.error(request, e)
+        return HttpResponseRedirect('/')
